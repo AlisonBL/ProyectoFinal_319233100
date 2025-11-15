@@ -35,10 +35,18 @@ float lastFrame = 0.0f;
 
 glm::vec3 pointLightPositions[] = {
     glm::vec3(25.0f, 7.0f, 0.0f),
-    /*glm::vec3(4.0f, 4.0f, 4.0f),
-    glm::vec3(4.0f, 4.0f, 4.0f),
-    glm::vec3(4.0f, 4.0f, 4.0f)*/
+    glm::vec3(-25.0f, 7.0f, 2.0f),
+    glm::vec3(-1.0f, 7.0f, -23.0f),
+    glm::vec3(-1.0f, 7.0f, 7.0f)
 };
+
+// Luces puntuales on/off
+bool pointLightsOn = true;
+bool pointLightsTogglePressed = false;   // para evitar rebotes al presionar la tecla
+
+//Luz ambiental on/off
+bool ambLightsOn = true;
+bool ambLightsTogglePressed = false;   // para evitar rebotes al presionar la tecla
 
 bool puertaAbierta = false;
 float rotPuerta = 0.0f;
@@ -66,7 +74,7 @@ float ciervoTurnSpeed = 2.0f;   // grados por frame (giro)
 
 // Punto/rotación originales del ciervo 
 glm::vec3 ciervoHomePos(0.0f, 0.0f, 0.0f);
-float     ciervoHomeRot = 0.0f;        
+float     ciervoHomeRot = 0.0f;
 
 // Velocidad de regreso 
 float ciervoReturnPosStep = 0.02f;    // unidades por frame (XYZ)
@@ -111,15 +119,15 @@ const float picoMax = 12.0f;   // apertura máxima
 const float picoVel = 0.2f;    // velocidad de apertura
 
 //  parámetros de vuelo pajaro 1
-float flyAmpX = 0.6f;   
-float flyAmpY = 0.5f;   
-float flyYawAmp = 8.0f;  
+float flyAmpX = 0.6f;
+float flyAmpY = 0.5f;
+float flyYawAmp = 8.0f;
 float flyHoverY = 0.6f;
 
 // velocidades (grados/frame para alas; rad/frame para fase)
-float wingAmp = 45.0f;  
-float wingHz = 0.45f;  
-float flyHz = 0.05f;  
+float wingAmp = 45.0f;
+float wingHz = 0.45f;
+float flyHz = 0.05f;
 
 // fase interna pajaro 1
 float pajaroPhase = 0.0f;
@@ -613,7 +621,7 @@ int main()
     GLint dirDirLoc = glGetUniformLocation(lightingShader.Program, "dirLight.direction");
     GLint dirAmbLoc = glGetUniformLocation(lightingShader.Program, "dirLight.ambient");
     GLint dirDifLoc = glGetUniformLocation(lightingShader.Program, "dirLight.diffuse");
-    GLint dirSpecLoc = glGetUniformLocation(lightingShader.Program, "dirLight.specular");    
+    GLint dirSpecLoc = glGetUniformLocation(lightingShader.Program, "dirLight.specular");
     // Point light 1
     GLint pPosLoc = glGetUniformLocation(lightingShader.Program, "pointLights[0].position");
     GLint pAmbLoc = glGetUniformLocation(lightingShader.Program, "pointLights[0].ambient");
@@ -622,6 +630,33 @@ int main()
     GLint pConstLoc = glGetUniformLocation(lightingShader.Program, "pointLights[0].constant");
     GLint pLinLoc = glGetUniformLocation(lightingShader.Program, "pointLights[0].linear");
     GLint pQuadLoc = glGetUniformLocation(lightingShader.Program, "pointLights[0].quadratic");
+
+    // Point light 2
+    GLint pPosLoc1 = glGetUniformLocation(lightingShader.Program, "pointLights[1].position");
+    GLint pAmbLoc1 = glGetUniformLocation(lightingShader.Program, "pointLights[1].ambient");
+    GLint pDifLoc1 = glGetUniformLocation(lightingShader.Program, "pointLights[1].diffuse");
+    GLint pSpecLoc1 = glGetUniformLocation(lightingShader.Program, "pointLights[1].specular");
+    GLint pConstLoc1 = glGetUniformLocation(lightingShader.Program, "pointLights[1].constant");
+    GLint pLinLoc1 = glGetUniformLocation(lightingShader.Program, "pointLights[1].linear");
+    GLint pQuadLoc1 = glGetUniformLocation(lightingShader.Program, "pointLights[1].quadratic");
+
+    // Point light 3
+    GLint pPosLoc2 = glGetUniformLocation(lightingShader.Program, "pointLights[2].position");
+    GLint pAmbLoc2 = glGetUniformLocation(lightingShader.Program, "pointLights[2].ambient");
+    GLint pDifLoc2 = glGetUniformLocation(lightingShader.Program, "pointLights[2].diffuse");
+    GLint pSpecLoc2 = glGetUniformLocation(lightingShader.Program, "pointLights[2].specular");
+    GLint pConstLoc2 = glGetUniformLocation(lightingShader.Program, "pointLights[2].constant");
+    GLint pLinLoc2 = glGetUniformLocation(lightingShader.Program, "pointLights[2].linear");
+    GLint pQuadLoc2 = glGetUniformLocation(lightingShader.Program, "pointLights[2].quadratic");
+
+    // Point light 4
+    GLint pPosLoc3 = glGetUniformLocation(lightingShader.Program, "pointLights[3].position");
+    GLint pAmbLoc3 = glGetUniformLocation(lightingShader.Program, "pointLights[3].ambient");
+    GLint pDifLoc3 = glGetUniformLocation(lightingShader.Program, "pointLights[3].diffuse");
+    GLint pSpecLoc3 = glGetUniformLocation(lightingShader.Program, "pointLights[3].specular");
+    GLint pConstLoc3 = glGetUniformLocation(lightingShader.Program, "pointLights[3].constant");
+    GLint pLinLoc3 = glGetUniformLocation(lightingShader.Program, "pointLights[3].linear");
+    GLint pQuadLoc3 = glGetUniformLocation(lightingShader.Program, "pointLights[3].quadratic");
 
     GLint sPosLoc = glGetUniformLocation(lightingShader.Program, "spotLight.position");
     GLint sDirLoc = glGetUniformLocation(lightingShader.Program, "spotLight.direction");
@@ -669,19 +704,47 @@ int main()
         glUniform3fv(viewPosLoc, 1, glm::value_ptr(camera.GetPosition()));
 
         // Luz direccional
+        float m = ambLightsOn ? 1.0f : 0.0f;
         glUniform3f(dirDirLoc, -0.2f, -1.0f, -0.3f);
-        glUniform3f(dirAmbLoc, 0.1f, 0.1f, 0.1f);
-        glUniform3f(dirDifLoc, 0.1f, 0.1f, 0.1f);
+        glUniform3f(dirAmbLoc, 0.5f*m, 0.5f*m, 0.5f*m);
+        glUniform3f(dirDifLoc, 0.5f*m, 0.5f*m, 0.5f*m);
         glUniform3f(dirSpecLoc, 0.3f, 0.3f, 0.3f);
 
         // Punto de luz
+        // factor: 1.0 = encendido, 0.0 = apagado
+        float k = pointLightsOn ? 1.0f : 0.0f;
+
         glUniform3fv(pPosLoc, 1, glm::value_ptr(pointLightPositions[0]));
-        glUniform3f(pAmbLoc, 0.8f, 0.8f, 0.8f);
-        glUniform3f(pDifLoc, 0.8f, 0.8f, 0.8f);
-        glUniform3f(pSpecLoc, 1.0f, 1.0f, 1.0f);
+        glUniform3f(pAmbLoc, 0.7f *k, 0.7f*k, 0.7f*k);
+        glUniform3f(pDifLoc, 0.7f*k, 0.7f*k, 0.7f*k);
+        glUniform3f(pSpecLoc, 1.0f*k, 1.0f*k, 1.0f*k);
         glUniform1f(pConstLoc, 1.0f);
-        glUniform1f(pLinLoc, 0.02f);
-        glUniform1f(pQuadLoc, 0.01f);
+        glUniform1f(pLinLoc, 0.04f);
+        glUniform1f(pQuadLoc, 0.02f);
+
+        glUniform3fv(pPosLoc1, 1, glm::value_ptr(pointLightPositions[1]));
+        glUniform3f(pAmbLoc1, 0.7f * k, 0.7f * k, 0.7f * k);
+        glUniform3f(pDifLoc1, 0.7f * k, 0.7f * k, 0.7f * k);
+        glUniform3f(pSpecLoc1, 1.0f * k, 1.0f * k, 1.0f * k);
+        glUniform1f(pConstLoc1, 1.0f);
+        glUniform1f(pLinLoc1, 0.04f);
+        glUniform1f(pQuadLoc1, 0.02f);
+
+        glUniform3fv(pPosLoc2, 1, glm::value_ptr(pointLightPositions[2]));
+        glUniform3f(pAmbLoc2, 0.8f * k, 0.8f * k, 0.8f * k);
+        glUniform3f(pDifLoc2, 0.8f * k, 0.8f * k, 0.8f * k);
+        glUniform3f(pSpecLoc2, 1.0f * k, 1.0f * k, 1.0f * k);
+        glUniform1f(pConstLoc2, 1.0f);
+        glUniform1f(pLinLoc2, 0.04f);
+        glUniform1f(pQuadLoc2, 0.02f);
+
+        glUniform3fv(pPosLoc3, 1, glm::value_ptr(pointLightPositions[3]));
+        glUniform3f(pAmbLoc3, 0.8f * k, 0.8f * k, 0.8f * k);
+        glUniform3f(pDifLoc3, 0.8f * k, 0.8f * k, 0.8f * k);
+        glUniform3f(pSpecLoc3, 1.0f * k, 1.0f * k, 1.0f * k);
+        glUniform1f(pConstLoc3, 1.0f);
+        glUniform1f(pLinLoc3, 0.04f);
+        glUniform1f(pQuadLoc3, 0.02f);
 
         // Spotlight (cámara)
         glUniform3fv(sPosLoc, 1, glm::value_ptr(camera.GetPosition()));
@@ -871,7 +934,7 @@ int main()
         // ----- TUCAN (PAJARO3) -----
         {
             glm::mat4 modelPajaro3(1.0f);
-            modelPajaro3 = glm::translate(modelPajaro3, glm::vec3(-0.27f,0.0f,0.0f));
+            modelPajaro3 = glm::translate(modelPajaro3, glm::vec3(-0.27f, 0.0f, 0.0f));
             modelPajaro3 = glm::translate(modelPajaro3, glm::vec3(11.55f, 12.56f, -10.18f));
             modelPajaro3 = glm::translate(modelPajaro3, pajaro3pos);
             modelPajaro3 = glm::rotate(modelPajaro3, glm::radians(pajaro3Rot), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -1303,6 +1366,93 @@ int main()
             glBindVertexArray(0);
         }
 
+        // Cubo 1 
+        {
+            // textura difusa para el cubo
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, lampTexture);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-23.0f, 7.0f, 2.0f)); // posición en tu escena
+            model = glm::scale(model, glm::vec3(2.5f));                  // tamaño
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glBindVertexArray(cubeVAO);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+
+        // Cubo 2
+        {
+            // textura difusa para el cubo
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, bardaTextura);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-23.0f, 3.5f, 2.0f)); // posición en tu escena
+            model = glm::scale(model, glm::vec3(1.0f, 7.0f, 1.0f));                  // tamaño
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glBindVertexArray(cubeVAO);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+
+
+        // Cubo 1 
+        {
+            // textura difusa para el cubo
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, lampTexture);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-1.0f, 7.0f, -23.0f)); // posición en tu escena
+            model = glm::scale(model, glm::vec3(2.5f));                  // tamaño
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glBindVertexArray(cubeVAO);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+
+        // Cubo 2
+        {
+            // textura difusa para el cubo
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, bardaTextura);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-1.0f, 3.0f, -23.0f)); // posición en tu escena
+            model = glm::scale(model, glm::vec3(1.0f, 7.0f, 1.0f));                  // tamaño
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glBindVertexArray(cubeVAO);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+
+        // Cubo 1 
+        {
+            // textura difusa para el cubo
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, lampTexture);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-1.0f, 7.0f, 7.0f)); // posición en tu escena
+            model = glm::scale(model, glm::vec3(2.5f));                  // tamaño
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glBindVertexArray(cubeVAO);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+
+        // Cubo 2
+        {
+            // textura difusa para el cubo
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, bardaTextura);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-1.0f, 3.0f, 7.0f)); // posición en tu escena
+            model = glm::scale(model, glm::vec3(1.0f, 7.0f, 1.0f));                  // tamaño
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glBindVertexArray(cubeVAO);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+
+
+
 
 
 
@@ -1348,13 +1498,6 @@ void ProcessInput(Window& window)
         camera.ProcessKeyboard(UP, deltaTime);
     if (window.IsKeyPressed(GLFW_KEY_X))
         camera.ProcessKeyboard(DOWN, deltaTime);
-
-    //if (window.IsKeyPressed(GLFW_KEY_L)) pointLightPositions[0].x += 0.1f;
-    //if (window.IsKeyPressed(GLFW_KEY_J)) pointLightPositions[0].x -= 0.1f;
-    //if (window.IsKeyPressed(GLFW_KEY_I)) pointLightPositions[0].y += 0.1f;
-    //if (window.IsKeyPressed(GLFW_KEY_K)) pointLightPositions[0].y -= 0.1f;
-    //if (window.IsKeyPressed(GLFW_KEY_U)) pointLightPositions[0].z -= 0.1f;
-    //if (window.IsKeyPressed(GLFW_KEY_O)) pointLightPositions[0].z += 0.1f;
 
     float xOffset = window.GetXChange();
     float yOffset = window.GetYChange();
@@ -1404,8 +1547,8 @@ void ProcessInput(Window& window)
             head = 0.0f;
             Ciervostep = false;
 
-           
-            ciervoDir = 1;     
+
+            ciervoDir = 1;
             ciervoTurning = false;
             ciervoTurnLeft = 0.0f;
             ciervoMoved = 0.0f;
@@ -1439,6 +1582,30 @@ void ProcessInput(Window& window)
     else if (!yNow) {
         animacionH4TogglePressed = false;
     }
+
+    bool lNow = window.IsKeyPressed(GLFW_KEY_L);
+
+    if (lNow && !pointLightsTogglePressed)
+    {
+        pointLightsOn = !pointLightsOn;      // cambia de encendido ? apagado
+        pointLightsTogglePressed = true;
+    }
+    else if (!lNow)
+    {
+        pointLightsTogglePressed = false;    // suelta la tecla para poder volver a togglear
+    }
+
+    bool oNow = window.IsKeyPressed(GLFW_KEY_O);
+
+    if (oNow && !ambLightsTogglePressed)
+    {
+        ambLightsOn = !ambLightsOn;      // cambia de encendido ? apagado
+        ambLightsTogglePressed = true;
+    }
+    else if (!oNow)
+    {
+        ambLightsTogglePressed = false;    // suelta la tecla para poder volver a togglear
+    }
 }
 
 void Animation()
@@ -1457,13 +1624,13 @@ void Animation()
     if (animacionH2)
     {
         //Animación de patas Ciervo Adulto
-        if (!Ciervostep) {       
+        if (!Ciervostep) {
             RLegs += 0.3f;
             FLegs += 0.3f;
             head += 0.3f;
             if (RLegs > 15.0f) Ciervostep = true;
         }
-        else {                  
+        else {
             RLegs -= 0.3f;
             FLegs -= 0.3f;
             head -= 0.3f;
@@ -1489,7 +1656,7 @@ void Animation()
 
             if (ciervoTurnLeft <= 0.0f) {
                 ciervoTurning = false;
-                ciervoDir *= -1;      
+                ciervoDir *= -1;
             }
 
             if (ciervoRot >= 360.0f) ciervoRot -= 360.0f;
@@ -1497,22 +1664,22 @@ void Animation()
         }
 
         // Ciervo Bebé 
-        const float NECK_SPEED = 0.3f;  
-        const float HEAD_SPEED = 0.3f;  
+        const float NECK_SPEED = 0.3f;
+        const float HEAD_SPEED = 0.3f;
 
-        const float NECK_MAX = 16.0f;   
-        const float HEAD_LIM = 15.0f;   
+        const float NECK_MAX = 16.0f;
+        const float HEAD_LIM = 15.0f;
 
         // estado persistente
         static int fase = 0;   // 0: bajar cuello, 1: cabecear, 2: subir cuello
         static int dir = -1;  // -1 baja cabeza, +1 sube
-        static int reps = 0;  
+        static int reps = 0;
 
         if (fase == 0) { // bajar cuello hacia +20
             if (neck < NECK_MAX) neck += NECK_SPEED;
             else { neck = NECK_MAX; head2 = 0.0f; dir = -1; reps = 0; fase = 1; }
         }
-        else if (fase == 1) { 
+        else if (fase == 1) {
             head2 += (dir * HEAD_SPEED);
             if (head2 <= -HEAD_LIM) { head2 = -HEAD_LIM; dir = +1; }
             if (head2 >= +HEAD_LIM) { head2 = +HEAD_LIM; dir = -1; reps++; }
@@ -1596,7 +1763,7 @@ void Animation()
         pajaro1Rot = flyYawAmp * sinf(pajaroPhase);
 
         // Aleteo 
-        float wingPhase = pajaroPhase * (wingHz / std::max(0.0001f, flyHz)); 
+        float wingPhase = pajaroPhase * (wingHz / std::max(0.0001f, flyHz));
         ala1 = wingAmp * sinf(wingPhase);   // derecha
         ala2 = -wingAmp * sinf(wingPhase);   // izquierda
     }
@@ -1606,7 +1773,7 @@ void Animation()
             else if (v < 0) v = std::min(0.0f, v + s);
             };
         go0(pajaro1pos.x, 0.05f);
-        go0(pajaro1pos.y, 0.05f);   
+        go0(pajaro1pos.y, 0.05f);
         go0(pajaro1Rot, 0.6f);
         go0(ala1, 2.0f);
         go0(ala2, 2.0f);
@@ -1614,13 +1781,13 @@ void Animation()
 
     // Pajaro 2: rotación simple 
     if (pajaro2Anim) {
-        if (!pajaro2step) {       
+        if (!pajaro2step) {
             pajaro2head += 0.3f;
             pajaro2Rot += 0.5f;
             pajaro2tail += 1.0f;
             if (pajaro2Rot > 20.0f) pajaro2step = true;
         }
-        else {                  
+        else {
             pajaro2head -= 0.3f;
             pajaro2Rot -= 0.5f;
             pajaro2tail -= 1.0f;
@@ -1637,7 +1804,7 @@ void Animation()
 
     // Tucán 
     if (pajaro3Anim) {
-        if (!pajaro3step) {              
+        if (!pajaro3step) {
             pajaro3head += 0.3f;
             pajaro3Rot += 0.4f;
             pajaro3tail += 1.0f;
@@ -1651,7 +1818,7 @@ void Animation()
 
             if (pajaro3Rot > 20.0f) pajaro3step = true;
         }
-        else {                        
+        else {
             pajaro3head -= 0.3f;
             pajaro3Rot -= 0.4f;
             pajaro3tail -= 1.0f;
@@ -1711,8 +1878,8 @@ void Animation()
         }
 
         pinguTime += deltaTime * 3.0f;  // velocidad de animación
-        pinguWings_A = std::sin(pinguTime) * 35.0f; 
-        pinguHead_A = std::sin(pinguTime + glm::pi<float>()) * 15.0f; 
+        pinguWings_A = std::sin(pinguTime) * 35.0f;
+        pinguHead_A = std::sin(pinguTime + glm::pi<float>()) * 15.0f;
 
         if (!pinguTurning) {
             float dx = pinguStep * pinguDir;
@@ -1735,7 +1902,7 @@ void Animation()
             if (pinguRot >= 360.0f) pinguRot -= 360.0f;
             if (pinguRot < 0.0f) pinguRot += 360.0f;
         }
-        sealTime += deltaTime * 2.5f; 
+        sealTime += deltaTime * 2.5f;
 
         sealHands_A = std::sin(sealTime) * 30.0f;
         sealHead_A = std::sin(sealTime + glm::pi<float>()) * 15.0f;
@@ -1772,81 +1939,81 @@ void Animation()
         sealHead_A = sealHands_A = 0.0f;
     }
 
-// ===== Hábitat 1 (Tiburón y Piraña) 
-if (animacionH1)
-{
-    float dt = deltaTime;
-    // ---------- TIBURÓN ----------
-    sharkTime += dt;
+    // ===== Hábitat 1 (Tiburón y Piraña) 
+    if (animacionH1)
+    {
+        float dt = deltaTime;
+        // ---------- TIBURÓN ----------
+        sharkTime += dt;
 
-    // Animación de cabeza, cuerpo y cola 
-    sharkHeadAngle = 12.0f * std::sin(sharkTime * 2.0f);
-    sharkBodyAngle = 10.0f * std::sin(sharkTime * 1.5f);
-    sharkTailA = 30.0f * std::sin(sharkTime * 2.5f);
+        // Animación de cabeza, cuerpo y cola 
+        sharkHeadAngle = 12.0f * std::sin(sharkTime * 2.0f);
+        sharkBodyAngle = 10.0f * std::sin(sharkTime * 1.5f);
+        sharkTailA = 30.0f * std::sin(sharkTime * 2.5f);
 
- 
-    float zSpeed = 1.5f;   
-    float xSpeed = 1.0f;  
-    float zMax = 2.0f;  
-    float xMax = 3.0f;   
 
-    // Avance en Z
-    sharkPos.z += sharkZDir * zSpeed * dt;
-    if (sharkPos.z > zMax) {
-        sharkPos.z = zMax;
-        sharkZDir = -1.0f;    // ahora va hacia atrás
+        float zSpeed = 1.5f;
+        float xSpeed = 1.0f;
+        float zMax = 2.0f;
+        float xMax = 3.0f;
+
+        // Avance en Z
+        sharkPos.z += sharkZDir * zSpeed * dt;
+        if (sharkPos.z > zMax) {
+            sharkPos.z = zMax;
+            sharkZDir = -1.0f;    // ahora va hacia atrás
+        }
+        else if (sharkPos.z < -zMax) {
+            sharkPos.z = -zMax;
+            sharkZDir = 1.0f;     // ahora va hacia adelante
+        }
+
+        sharkPos.x += sharkXDir * xSpeed * dt;
+        if (sharkPos.x > xMax) {
+            sharkPos.x = xMax;
+            sharkXDir = -1.0f;
+        }
+        else if (sharkPos.x < -xMax) {
+            sharkPos.x = -xMax;
+            sharkXDir = 1.0f;
+        }
+
+        // ---------- PIRAÑA ----------
+        piraTime += dt;
+
+        float swimSpeed = 0.5f;
+        float swimLimit = 0.3f;
+
+        piranhaPos.z += swimSpeed * dt;
+
+        if (piranhaPos.z > swimLimit) {
+            piranhaPos.z = swimLimit;
+            swimSpeed = -swimSpeed;
+        }
+        else if (piranhaPos.z < -swimLimit) {
+            piranhaPos.z = -swimLimit;
+            swimSpeed = -swimSpeed;
+        }
+
+        // Movimiento cabeza/cola
+        piraHeadAngle = 20.0f * sin(piraTime * 2.0f);
+        piraTailAngle = -25.0f * sin(piraTime * 2.8f);
+        const float rotMax = 15.0f;
+        const float rotSpeed = 25.0f;
+
+        piraRotAngle += rotSpeed * piraDirRot * dt;
+
+        if (piraRotAngle > rotMax) {
+            piraRotAngle = rotMax;
+            piraDirRot = -1.0f;         // girar hacia el otro lado
+        }
+        else if (piraRotAngle < -rotMax) {
+            piraRotAngle = -rotMax;
+            piraDirRot = 1.0f;
+        }
+
+        piranhaRot = piraRotAngle;
     }
-    else if (sharkPos.z < -zMax) {
-        sharkPos.z = -zMax;
-        sharkZDir = 1.0f;     // ahora va hacia adelante
-    }
-
-    sharkPos.x += sharkXDir * xSpeed * dt;
-    if (sharkPos.x > xMax) {
-        sharkPos.x = xMax;
-        sharkXDir = -1.0f;
-    }
-    else if (sharkPos.x < -xMax) {
-        sharkPos.x = -xMax;
-        sharkXDir = 1.0f;
-    }
-
-    // ---------- PIRAÑA ----------
-    piraTime += dt;
-
-    float swimSpeed = 0.5f;   
-    float swimLimit = 0.3f;   
-
-    piranhaPos.z += swimSpeed * dt;
-
-    if (piranhaPos.z > swimLimit) {
-        piranhaPos.z = swimLimit;
-        swimSpeed = -swimSpeed;
-    }
-    else if (piranhaPos.z < -swimLimit) {
-        piranhaPos.z = -swimLimit;
-        swimSpeed = -swimSpeed;
-    }
-
-    // Movimiento cabeza/cola
-    piraHeadAngle = 20.0f * sin(piraTime * 2.0f);
-    piraTailAngle = -25.0f * sin(piraTime * 2.8f);
-    const float rotMax = 15.0f;  
-    const float rotSpeed = 25.0f; 
-
-    piraRotAngle += rotSpeed * piraDirRot * dt;
-
-    if (piraRotAngle > rotMax) {
-        piraRotAngle = rotMax;
-        piraDirRot = -1.0f;         // girar hacia el otro lado
-    }
-    else if (piraRotAngle < -rotMax) {
-        piraRotAngle = -rotMax;
-        piraDirRot = 1.0f;
-    }
-
-    piranhaRot = piraRotAngle;
-}
 
 }
 
