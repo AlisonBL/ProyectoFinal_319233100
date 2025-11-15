@@ -12,7 +12,6 @@ struct Material
 struct DirLight
 {
     vec3 direction;
-    
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
@@ -21,11 +20,9 @@ struct DirLight
 struct PointLight
 {
     vec3 position;
-    
     float constant;
     float linear;
     float quadratic;
-    
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
@@ -52,7 +49,6 @@ in vec3 Normal;
 in vec2 TexCoords;
 
 out vec4 color;
-
 uniform vec3 viewPos;
 uniform DirLight dirLight;
 uniform PointLight pointLights[NUMBER_OF_POINT_LIGHTS];
@@ -87,8 +83,6 @@ void main( )
     result += CalcSpotLight( spotLight, norm, FragPos, viewDir );
  	
     color = vec4( result,texture(material.diffuse, TexCoords).rgb );
-
-    // === agregado: aplicar opacidad usando la textura y el uniform alpha ===
     float texA = texture(material.diffuse, TexCoords).a;
     color.a = texA * alpha;
     // ======================================================================

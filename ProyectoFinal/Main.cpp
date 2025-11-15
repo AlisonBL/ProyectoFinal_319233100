@@ -18,6 +18,7 @@
 #include "Texture.h"
 #include "Window.h"
 
+
 void CrearObjeto(GLuint& VAO, GLuint& VBO, GLuint& EBO,
     GLfloat* vertices, GLuint* indices, int tamV, int tamI);
 void CrearObjetoSkyBox(GLuint& VAO, GLuint& VBO,
@@ -33,7 +34,10 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 glm::vec3 pointLightPositions[] = {
-    glm::vec3(0.0f, 2.0f, 0.0f)
+    glm::vec3(25.0f, 7.0f, 0.0f),
+    /*glm::vec3(4.0f, 4.0f, 4.0f),
+    glm::vec3(4.0f, 4.0f, 4.0f),
+    glm::vec3(4.0f, 4.0f, 4.0f)*/
 };
 
 bool puertaAbierta = false;
@@ -242,7 +246,6 @@ int main()
 
     Shader lightingShader("Shader/Lighting.vert", "Shader/Lighting.frag");
     Shader skyboxShader("Shader/SkyBox.vert", "Shader/SkyBox.frag");
-
     lightingShader.Use();
     glUniform1i(glGetUniformLocation(lightingShader.Program, "texture_diffuse1"), 0);
     glUniform1i(glGetUniformLocation(lightingShader.Program, "texture_specular1"), 1);
@@ -342,7 +345,7 @@ int main()
     Model TucanPico1((char*)"tucanpicoup.obj");
     Model TucanPico2((char*)"tucanpicodown.obj");
 
-    // Skybox (igual en ambos, usamos la definición de Main.cpp)
+    // Skybox 
     GLfloat skyboxVertices[] = {
         -1.0f,  1.0f, -1.0f,
         -1.0f, -1.0f, -1.0f,
@@ -401,7 +404,7 @@ int main()
 
     GLuint cubemapTexture = TextureLoading::LoadCubemap(faces);
 
-    // Barda (igual en ambos)
+    // Barda 
     GLfloat bardaVertices[] = {
         -0.5f, 0.0f,  0.5f,  0.0f, 0.0f,   0.0f, 0.0f, 1.0f,
          0.5f, 0.0f,  0.5f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f,
@@ -449,6 +452,70 @@ int main()
         sizeof(bardaVertices), sizeof(bardaIndices));
 
     GLuint bardaTextura = TextureLoading::LoadTexture("Textures/brick.png");
+    GLuint cubeTexture = TextureLoading::LoadTexture("Textures/plain.png");
+    GLuint lampTexture = TextureLoading::LoadTexture("Textures/lamparas.jpg");
+
+
+    // ===== CUBO LÁMPARA =====
+    GLfloat cubeVertices[] = {
+        //  pos.x  pos.y  pos.z   nx   ny   nz    u    v
+
+        // Frente (+Z)
+        -0.5f, -0.5f,  0.5f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,   0.0f, 0.0f, 1.0f,   1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f,
+
+        // Detrás (-Z)
+        -0.5f, -0.5f, -0.5f,   0.0f, 0.0f,-1.0f,   1.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,   0.0f, 0.0f,-1.0f,   0.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,   0.0f, 0.0f,-1.0f,   0.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,   0.0f, 0.0f,-1.0f,   1.0f, 1.0f,
+
+        // Izquierda (-X)
+        -0.5f, -0.5f, -0.5f,  -1.0f, 0.0f, 0.0f,   0.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  -1.0f, 0.0f, 0.0f,   1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  -1.0f, 0.0f, 0.0f,   1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  -1.0f, 0.0f, 0.0f,   0.0f, 1.0f,
+
+        // Derecha (+X)
+         0.5f, -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,   1.0f, 0.0f, 0.0f,   0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,
+
+         // Abajo (-Y)
+         -0.5f, -0.5f, -0.5f,   0.0f,-1.0f, 0.0f,   0.0f, 1.0f,
+          0.5f, -0.5f, -0.5f,   0.0f,-1.0f, 0.0f,   1.0f, 1.0f,
+          0.5f, -0.5f,  0.5f,   0.0f,-1.0f, 0.0f,   1.0f, 0.0f,
+         -0.5f, -0.5f,  0.5f,   0.0f,-1.0f, 0.0f,   0.0f, 0.0f,
+
+         // Arriba (+Y)
+         -0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f,   0.0f, 1.0f,
+          0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
+          0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,
+         -0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,   0.0f, 0.0f
+    };
+
+    GLuint cubeIndices[] = {
+        // Frente
+        0, 1, 2,  2, 3, 0,
+        // Detrás
+        4, 5, 6,  6, 7, 4,
+        // Izquierda
+        8, 9,10, 10,11, 8,
+        // Derecha
+        12,13,14, 14,15,12,
+        // Abajo
+        16,17,18, 18,19,16,
+        // Arriba
+        20,21,22, 22,23,20
+    };
+
+    GLuint cubeVAO, cubeVBO, cubeEBO;
+    CrearObjeto(cubeVAO, cubeVBO, cubeEBO,
+        cubeVertices, cubeIndices,
+        sizeof(cubeVertices), sizeof(cubeIndices));
 
     glm::mat4 modelPiso = glm::scale(glm::mat4(1.0f), glm::vec3(1.05f));
     glm::mat4 modelRejas = glm::mat4(1.0f);
@@ -536,7 +603,7 @@ int main()
         }
     }
 
-    // Cache uniforms (igual en ambos)
+    // Cache uniforms 
     lightingShader.Use();
     GLint modelLoc = glGetUniformLocation(lightingShader.Program, "model");
     GLint viewLoc = glGetUniformLocation(lightingShader.Program, "view");
@@ -546,8 +613,8 @@ int main()
     GLint dirDirLoc = glGetUniformLocation(lightingShader.Program, "dirLight.direction");
     GLint dirAmbLoc = glGetUniformLocation(lightingShader.Program, "dirLight.ambient");
     GLint dirDifLoc = glGetUniformLocation(lightingShader.Program, "dirLight.diffuse");
-    GLint dirSpecLoc = glGetUniformLocation(lightingShader.Program, "dirLight.specular");
-
+    GLint dirSpecLoc = glGetUniformLocation(lightingShader.Program, "dirLight.specular");    
+    // Point light 1
     GLint pPosLoc = glGetUniformLocation(lightingShader.Program, "pointLights[0].position");
     GLint pAmbLoc = glGetUniformLocation(lightingShader.Program, "pointLights[0].ambient");
     GLint pDifLoc = glGetUniformLocation(lightingShader.Program, "pointLights[0].diffuse");
@@ -597,15 +664,14 @@ int main()
 
         // ----- SHADER ILUMINACIÓN -----
         lightingShader.Use();
-
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
         glUniform3fv(viewPosLoc, 1, glm::value_ptr(camera.GetPosition()));
 
         // Luz direccional
         glUniform3f(dirDirLoc, -0.2f, -1.0f, -0.3f);
-        glUniform3f(dirAmbLoc, 0.6f, 0.6f, 0.6f);
-        glUniform3f(dirDifLoc, 0.6f, 0.6f, 0.6f);
+        glUniform3f(dirAmbLoc, 0.1f, 0.1f, 0.1f);
+        glUniform3f(dirDifLoc, 0.1f, 0.1f, 0.1f);
         glUniform3f(dirSpecLoc, 0.3f, 0.3f, 0.3f);
 
         // Punto de luz
@@ -614,8 +680,8 @@ int main()
         glUniform3f(pDifLoc, 0.8f, 0.8f, 0.8f);
         glUniform3f(pSpecLoc, 1.0f, 1.0f, 1.0f);
         glUniform1f(pConstLoc, 1.0f);
-        glUniform1f(pLinLoc, 0.045f);
-        glUniform1f(pQuadLoc, 0.075f);
+        glUniform1f(pLinLoc, 0.02f);
+        glUniform1f(pQuadLoc, 0.01f);
 
         // Spotlight (cámara)
         glUniform3fv(sPosLoc, 1, glm::value_ptr(camera.GetPosition()));
@@ -1209,6 +1275,38 @@ int main()
             Banquitas.Draw(lightingShader);
         }
 
+        // Cubo 1 
+        {
+            // textura difusa para el cubo
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, lampTexture);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(23.0f, 7.0f, 0.0f)); // posición en tu escena
+            model = glm::scale(model, glm::vec3(2.5f));                  // tamaño
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glBindVertexArray(cubeVAO);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+
+        // Cubo 2
+        {
+            // textura difusa para el cubo
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, bardaTextura);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(23.0f, 3.5f, 0.0f)); // posición en tu escena
+            model = glm::scale(model, glm::vec3(1.0f, 7.0f, 1.0f));                  // tamaño
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glBindVertexArray(cubeVAO);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+
+
+
+
+
 
         // ----- SKYBOX -----
         glDepthFunc(GL_LEQUAL);
@@ -1227,7 +1325,6 @@ int main()
 
         glDepthMask(GL_TRUE);
         glDepthFunc(GL_LESS);
-
         window.SwapBuffers();
     }
 
@@ -1252,12 +1349,12 @@ void ProcessInput(Window& window)
     if (window.IsKeyPressed(GLFW_KEY_X))
         camera.ProcessKeyboard(DOWN, deltaTime);
 
-    if (window.IsKeyPressed(GLFW_KEY_L)) pointLightPositions[0].x += 0.05f;
-    if (window.IsKeyPressed(GLFW_KEY_J)) pointLightPositions[0].x -= 0.05f;
-    if (window.IsKeyPressed(GLFW_KEY_I)) pointLightPositions[0].y += 0.05f;
-    if (window.IsKeyPressed(GLFW_KEY_K)) pointLightPositions[0].y -= 0.05f;
-    if (window.IsKeyPressed(GLFW_KEY_U)) pointLightPositions[0].z -= 0.05f;
-    if (window.IsKeyPressed(GLFW_KEY_O)) pointLightPositions[0].z += 0.05f;
+    //if (window.IsKeyPressed(GLFW_KEY_L)) pointLightPositions[0].x += 0.1f;
+    //if (window.IsKeyPressed(GLFW_KEY_J)) pointLightPositions[0].x -= 0.1f;
+    //if (window.IsKeyPressed(GLFW_KEY_I)) pointLightPositions[0].y += 0.1f;
+    //if (window.IsKeyPressed(GLFW_KEY_K)) pointLightPositions[0].y -= 0.1f;
+    //if (window.IsKeyPressed(GLFW_KEY_U)) pointLightPositions[0].z -= 0.1f;
+    //if (window.IsKeyPressed(GLFW_KEY_O)) pointLightPositions[0].z += 0.1f;
 
     float xOffset = window.GetXChange();
     float yOffset = window.GetYChange();
