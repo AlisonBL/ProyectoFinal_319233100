@@ -1,4 +1,4 @@
-#include <iostream>
+Ôªø#include <iostream>
 #include <vector>
 #include <cmath>
 #include <algorithm> 
@@ -52,7 +52,7 @@ bool puertaAbierta = false;
 float rotPuerta = 0.0f;
 float velocidadPuerta = 1.0f;
 
-// AnimaciÛn para el h·bitat 2 (Ciervos)
+// Animaci√≥n para el h√°bitat 2 (Ciervos)
 bool animacionH2 = false;
 bool animacionH2TogglePressed = false;
 
@@ -68,11 +68,11 @@ float ciervoSegLen = 5.0f;   // distancia por tramo
 float ciervoStep = 0.01f;  // avance por frame 
 float ciervoMoved = 0.0f;   // acumulado de la distancia recorrida en el tramo
 int   ciervoDir = +1;     // +1 hacia +Z, -1 hacia -Z
-bool  ciervoTurning = false;  // est· girando
+bool  ciervoTurning = false;  // est√° girando
 float ciervoTurnLeft = 180.0f; // grados por girar cuando toca
 float ciervoTurnSpeed = 2.0f;   // grados por frame (giro)
 
-// Punto/rotaciÛn originales del ciervo 
+// Punto/rotaci√≥n originales del ciervo 
 glm::vec3 ciervoHomePos(0.0f, 0.0f, 0.0f);
 float     ciervoHomeRot = 0.0f;
 
@@ -84,7 +84,7 @@ float ciervoReturnRotStep = 2.0f;     // grados por frame
 bool puertaTogglePressed = false;
 bool ciervoTogglePressed = false; // Flag para el ciervo adulto
 
-// AnimaciÛn Ciervo BebÈ
+// Animaci√≥n Ciervo Beb√©
 bool Ciervo2Anim = false;
 bool ciervobebeTogglePressed = false;
 float head2 = 0.0f;
@@ -115,10 +115,10 @@ float pajaro3head = 0.0f;
 float pajaro3tail = 0.0f;
 float pico1 = 0.0f;
 float pico2 = 0.0f;
-const float picoMax = 12.0f;   // apertura m·xima 
+const float picoMax = 12.0f;   // apertura m√°xima 
 const float picoVel = 0.2f;    // velocidad de apertura
 
-//  par·metros de vuelo pajaro 1
+//  par√°metros de vuelo pajaro 1
 float flyAmpX = 0.6f;
 float flyAmpY = 0.5f;
 float flyYawAmp = 8.0f;
@@ -132,11 +132,11 @@ float flyHz = 0.05f;
 // fase interna pajaro 1
 float pajaroPhase = 0.0f;
 
-// AnimaciÛn para el h·bitat 4 (Oso, Ping¸ino, Foca)
+// Animaci√≥n para el h√°bitat 4 (Oso, Ping√ºino, Foca)
 bool animacionH4 = false;
 bool animacionH4TogglePressed = false;
 
-// AnimaciÛn oso polar
+// Animaci√≥n oso polar
 float pBearWalkTime = 0.0f;
 float pBearFR_A = 0.0f;
 float pBearFL_A = 0.0f;
@@ -154,7 +154,7 @@ bool  pBearTurning = false;
 float pBearTurnLeft = 180.0f;
 float pBearTurnSpeed = 2.0f;
 
-// AnimaciÛn ping¸ino
+// Animaci√≥n ping√ºino
 float pinguTime = 0.0f;
 float pinguHead_A = 0.0f;
 float pinguWings_A = 0.0f;
@@ -170,10 +170,10 @@ bool  pinguTurning = false;
 float pinguTurnLeft = 180.0f;
 float pinguTurnSpeed = 2.0f;
 
-// AnimaciÛn foca
+// Animaci√≥n foca
 float sealTime = 0.0f;
-float sealHead_A = 0.0f;  // rotaciÛn cabeza arriba/abajo
-float sealHands_A = 0.0f;  // rotaciÛn aletas adelante/atr·s
+float sealHead_A = 0.0f;  // rotaci√≥n cabeza arriba/abajo
+float sealHands_A = 0.0f;  // rotaci√≥n aletas adelante/atr√°s
 
 glm::vec3 sealPos(0.0f, 0.0f, 0.0f);
 float sealRot = 0.0f;
@@ -186,37 +186,37 @@ bool  sealTurning = false;
 float sealTurnLeft = 180.0f;
 float sealTurnSpeed = 2.0f;
 
-// AnimaciÛn para el h·bitat 1 (TiburÛn, PiraÒa)
+// Animaci√≥n para el h√°bitat 1 (Tibur√≥n, Pira√±a)
 bool animacionH1 = false;
 bool animacionH1TogglePressed = false;
 
-// AnimaciÛn del tiburÛn
+// Animaci√≥n del tibur√≥n
 float sharkTime = 0.0f;
 float sharkHeadAngle = 0.0f;
 float sharkTailA = 0.0f;
-float sharkBodyAngle = 0.0f;  // ¡ngulo para oscilar el cuerpo
+float sharkBodyAngle = 0.0f;  // √Ångulo para oscilar el cuerpo
 
 glm::vec3 sharkPos(0.0f);
 float sharkRot = 0.0f;
-float sharkZDir = 1.0f;   // direcciÛn en Z: +1 adelante, -1 atr·s
-float sharkXDir = 1.0f;   // direcciÛn en X: zigzag izquierda/derecha
+float sharkZDir = 1.0f;   // direcci√≥n en Z: +1 adelante, -1 atr√°s
+float sharkXDir = 1.0f;   // direcci√≥n en X: zigzag izquierda/derecha
 
 
-// AnimaciÛn piraÒa
+// Animaci√≥n pira√±a
 float piraHeadAngle = 0.0f;
 float piraTailAngle = 0.0f;
-float piraTime = 0.0f;  // tiempo para animaciÛn
+float piraTime = 0.0f;  // tiempo para animaci√≥n
 glm::vec3 piranhaPos(0.0f);
 float piranhaRot = 0.0f;
-// Direcciones ping-pong (±1)
-// --- Para rotaciÛn suave sin trigonometrÌa ---
-float piraRotAngle = 0.0f;      // acumulador de rotaciÛn
+// Direcciones ping-pong (¬±1)
+// --- Para rotaci√≥n suave sin trigonometr√≠a ---
+float piraRotAngle = 0.0f;      // acumulador de rotaci√≥n
 float piraDirRot = 1.0f;      // +1 gira derecha, -1 gira izquierda
 
 glm::mat4 modelTemp(1.0f);
 glm::mat4 modelTemp2(1.0f);
 
-// Mundo: +Z frente, -Z atr·s, +X derecha, -X izquierda, +Y arriba
+// Mundo: +Z frente, -Z atr√°s, +X derecha, -X izquierda, +Y arriba
 const float WALL_HALF_LENGTH = 30.0f;
 const float TOTAL_WALL_LENGTH = WALL_HALF_LENGTH * 2.0f;
 const int   NUM_WALL_BLOCKS = 6;
@@ -231,7 +231,7 @@ const glm::vec3 PUERTA_IZQ_PIVOT(-1.326733f, 0.0f, DOOR_Z);
 // Centro local entre pivotes
 const glm::vec3 GATE_LOCAL_REF = 0.5f * (PUERTA_DER_PIVOT + PUERTA_IZQ_PIVOT);
 
-// PosiciÛn global del centro del conjunto arco+puertas
+// Posici√≥n global del centro del conjunto arco+puertas
 const glm::vec3 GATE_POS(0.0f, 0.0f, 30.0f);
 const glm::vec3 GATE_SCALE(1.5f, 1.5f, 1.5f);
 
@@ -290,7 +290,7 @@ int main()
     Model ArbolAv((char*)"aviarioarbol.obj");
     Model HojasAv((char*)"hojasaviario.obj");
 
-    // Ciervo bebÈ
+    // Ciervo beb√©
     Model BabyDeerBody((char*)"CiervoBebe.obj");
     Model BabyDeerNeck((char*)"CiervoBebeCuello.obj");
     Model BabyDeerHead((char*)"CiervoBebeCabeza.obj");
@@ -300,7 +300,7 @@ int main()
     Model pinguB((char*)"pingu_body.obj");
     Model pinguW((char*)"pingu_wings.obj");
 
-    // PiraÒa
+    // Pira√±a
     Model piranhaH((char*)"CabezaPirana.obj");
     Model piranhaT((char*)"ColaPirana.obj");
 
@@ -319,7 +319,7 @@ int main()
     Model pBearBL((char*)"Polar_Bear_BL_Leg.obj");
 
 
-    // TiburÛn
+    // Tibur√≥n
     Model sharkB((char*)"Tiburon1_torso.obj");
     Model sharkH((char*)"Tiburon1.obj");
     Model sharkT((char*)"Tiburon1_cola.obj");
@@ -327,7 +327,7 @@ int main()
     // Iglu
     Model Iglu((char*)"Iglu.obj");
 
-    // Modelos de entorno H·bitat 4 (¡rtico/Acu·tico)
+    // Modelos de entorno H√°bitat 4 (√Årtico/Acu√°tico)
     Model BardaMetal((char*)"bardametal1.obj");
     Model BardaVidrio((char*)"bardavidrio.obj");
     Model Pecera((char*)"pecera.obj");
@@ -462,53 +462,55 @@ int main()
     GLuint bardaTextura = TextureLoading::LoadTexture("Textures/brick.png");
     GLuint cubeTexture = TextureLoading::LoadTexture("Textures/plain.png");
     GLuint lampTexture = TextureLoading::LoadTexture("Textures/lamparas.jpg");
+    GLuint maderaTextura = TextureLoading::LoadTexture("Textures/maderacaja.png");
+    GLuint cartelTextura = TextureLoading::LoadTexture("Textures/venadocartel.jpg");
+    GLuint cartelTextura1 = TextureLoading::LoadTexture("Textures/carteloso.jpg");
+    GLuint cartelTextura2 = TextureLoading::LoadTexture("Textures/cartelacuario.jpg");
 
-
-    // ===== CUBO L¡MPARA =====
     GLfloat cubeVertices[] = {
-        //  pos.x  pos.y  pos.z   nx   ny   nz    u    v
 
         // Frente (+Z)
-        -0.5f, -0.5f,  0.5f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,   0.0f, 0.0f, 1.0f,   1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,   0.0f, 0.0f,    0.0f, 0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,   1.0f, 0.0f,    0.0f, 0.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,   1.0f, 1.0f,    0.0f, 0.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,   0.0f, 1.0f,    0.0f, 0.0f, 1.0f,
 
-        // Detr·s (-Z)
-        -0.5f, -0.5f, -0.5f,   0.0f, 0.0f,-1.0f,   1.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,   0.0f, 0.0f,-1.0f,   0.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,   0.0f, 0.0f,-1.0f,   0.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,   0.0f, 0.0f,-1.0f,   1.0f, 1.0f,
+        // Detr√°s (-Z)
+        -0.5f, -0.5f, -0.5f,   1.0f, 0.0f,    0.0f, 0.0f,-1.0f,
+         0.5f, -0.5f, -0.5f,   0.0f, 0.0f,    0.0f, 0.0f,-1.0f,
+         0.5f,  0.5f, -0.5f,   0.0f, 1.0f,    0.0f, 0.0f,-1.0f,
+        -0.5f,  0.5f, -0.5f,   1.0f, 1.0f,    0.0f, 0.0f,-1.0f,
 
         // Izquierda (-X)
-        -0.5f, -0.5f, -0.5f,  -1.0f, 0.0f, 0.0f,   0.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  -1.0f, 0.0f, 0.0f,   1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  -1.0f, 0.0f, 0.0f,   1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  -1.0f, 0.0f, 0.0f,   0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,   0.0f, 0.0f,   -1.0f, 0.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,   1.0f, 0.0f,   -1.0f, 0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,   1.0f, 1.0f,   -1.0f, 0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,   0.0f, 1.0f,   -1.0f, 0.0f, 0.0f,
 
         // Derecha (+X)
-         0.5f, -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,   1.0f, 0.0f, 0.0f,   0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,   1.0f, 0.0f,    1.0f, 0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,   0.0f, 0.0f,    1.0f, 0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,   0.0f, 1.0f,    1.0f, 0.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,   1.0f, 1.0f,    1.0f, 0.0f, 0.0f,
 
          // Abajo (-Y)
-         -0.5f, -0.5f, -0.5f,   0.0f,-1.0f, 0.0f,   0.0f, 1.0f,
-          0.5f, -0.5f, -0.5f,   0.0f,-1.0f, 0.0f,   1.0f, 1.0f,
-          0.5f, -0.5f,  0.5f,   0.0f,-1.0f, 0.0f,   1.0f, 0.0f,
-         -0.5f, -0.5f,  0.5f,   0.0f,-1.0f, 0.0f,   0.0f, 0.0f,
+         -0.5f, -0.5f, -0.5f,   0.0f, 1.0f,    0.0f,-1.0f, 0.0f,
+          0.5f, -0.5f, -0.5f,   1.0f, 1.0f,    0.0f,-1.0f, 0.0f,
+          0.5f, -0.5f,  0.5f,   1.0f, 0.0f,    0.0f,-1.0f, 0.0f,
+         -0.5f, -0.5f,  0.5f,   0.0f, 0.0f,    0.0f,-1.0f, 0.0f,
 
          // Arriba (+Y)
-         -0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f,   0.0f, 1.0f,
-          0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
-          0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,
-         -0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,   0.0f, 0.0f
+         -0.5f,  0.5f, -0.5f,   0.0f, 0.0f,    0.0f, 1.0f, 0.0f,
+          0.5f,  0.5f, -0.5f,   1.0f, 0.0f,    0.0f, 1.0f, 0.0f,
+          0.5f,  0.5f,  0.5f,   1.0f, 1.0f,    0.0f, 1.0f, 0.0f,
+         -0.5f,  0.5f,  0.5f,   0.0f, 1.0f,    0.0f, 1.0f, 0.0f
     };
+
 
     GLuint cubeIndices[] = {
         // Frente
         0, 1, 2,  2, 3, 0,
-        // Detr·s
+        // Detr√°s
         4, 5, 6,  6, 7, 4,
         // Izquierda
         8, 9,10, 10,11, 8,
@@ -697,7 +699,7 @@ int main()
         );
         glm::mat4 view = camera.GetViewMatrix();
 
-        // ----- SHADER ILUMINACI”N -----
+        // ----- SHADER ILUMINACI√ìN -----
         lightingShader.Use();
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
@@ -746,7 +748,7 @@ int main()
         glUniform1f(pLinLoc3, 0.04f);
         glUniform1f(pQuadLoc3, 0.02f);
 
-        // Spotlight (c·mara)
+        // Spotlight (c√°mara)
         glUniform3fv(sPosLoc, 1, glm::value_ptr(camera.GetPosition()));
         glUniform3fv(sDirLoc, 1, glm::value_ptr(camera.GetFront()));
         glUniform3f(sAmbLoc, 0.2f, 0.2f, 0.8f);
@@ -852,7 +854,7 @@ int main()
         {
             // matriz identidad
             glm::mat4 modelCiervoBebe(1.0f);
-            modelCiervoBebe = glm::translate(modelCiervoBebe, glm::vec3(1.0f, 0.0f, 0.0f)); // Corregido el despazamiento del bebÈ en Main.cpp
+            modelCiervoBebe = glm::translate(modelCiervoBebe, glm::vec3(1.0f, 0.0f, 0.0f)); // Corregido el despazamiento del beb√© en Main.cpp
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelCiervoBebe));
             glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
             // cuerpo (no se mueve ni rota)
@@ -1047,11 +1049,11 @@ int main()
             Banca.Draw(lightingShader);
         }
 
-        // ----- PING‹INO -----
+        // ----- PING√úINO -----
         {
             glm::mat4 modelPingu(1.0f);
 
-            // Base para H·bitat Polar (ajustada para que Ping¸ino, Oso, y Foca estÈn separados)
+            // Base para H√°bitat Polar (ajustada para que Ping√ºino, Oso, y Foca est√©n separados)
             glm::vec3 habitat_polar_center(22.0f, 0.0f, 8.0f);
 
             modelPingu = glm::translate(modelPingu, habitat_polar_center);
@@ -1089,7 +1091,7 @@ int main()
             }
         }
 
-        // ----- PIRA—A ------
+        // ----- PIRA√ëA ------
         {
             glm::mat4 modelPira(1.0f);
             glm::vec3 habitat_marino_center(-24.0f, 2.0f, -16.0f);
@@ -1099,7 +1101,7 @@ int main()
             modelPira = glm::rotate(modelPira, glm::radians(piranhaRot), glm::vec3(0.0f, 1.0f, 0.0f));
             modelPira = glm::scale(modelPira, glm::vec3(0.5f));
 
-            // Dibuja cabeza con pivote ajustado seg˙n modelo
+            // Dibuja cabeza con pivote ajustado seg√∫n modelo
             glm::mat4 modelHead = modelPira;
             const glm::vec3 HEAD_PIVOT(-0.002055f, 0.885469f, -1.231676f);
             modelHead = glm::translate(modelHead, HEAD_PIVOT);
@@ -1230,7 +1232,7 @@ int main()
             }
         }
 
-        // ------- TIBUR”N ----
+        // ------- TIBUR√ìN ----
         {
             glm::mat4 modelTibu(1.0f);
             glm::vec3 habitat_marino_center(-20.0f, 0.0f, -19.0f);
@@ -1267,11 +1269,11 @@ int main()
         {
             glm::mat4 modelIglu(1.0f);
 
-            // PosiciÛn del igl˙ 
+            // Posici√≥n del igl√∫ 
             modelIglu = glm::translate(modelIglu, glm::vec3(5.0f, 0.0f, 7.0f)); // Posicion relativa al centro polar
             modelIglu = glm::scale(modelIglu, glm::vec3(0.8f));
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelIglu));
-            glUniform1i(transpLoc, 0);      // Igl˙ opaco
+            glUniform1i(transpLoc, 0);      // Igl√∫ opaco
             Iglu.Draw(lightingShader);
         }
 
@@ -1344,8 +1346,8 @@ int main()
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, lampTexture);
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(23.0f, 7.0f, 0.0f)); // posiciÛn en tu escena
-            model = glm::scale(model, glm::vec3(2.5f));                  // tamaÒo
+            model = glm::translate(model, glm::vec3(23.0f, 7.0f, 0.0f)); // posici√≥n en tu escena
+            model = glm::scale(model, glm::vec3(2.5f));                  // tama√±o
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
             glBindVertexArray(cubeVAO);
             glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
@@ -1356,10 +1358,10 @@ int main()
         {
             // textura difusa para el cubo
             glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, bardaTextura);
+            glBindTexture(GL_TEXTURE_2D, maderaTextura);
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(23.0f, 3.5f, 0.0f)); // posiciÛn en tu escena
-            model = glm::scale(model, glm::vec3(1.0f, 7.0f, 1.0f));                  // tamaÒo
+            model = glm::translate(model, glm::vec3(23.0f, 3.5f, 0.0f)); 
+            model = glm::scale(model, glm::vec3(1.0f, 7.0f, 1.0f));                 
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
             glBindVertexArray(cubeVAO);
             glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
@@ -1372,8 +1374,8 @@ int main()
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, lampTexture);
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-23.0f, 7.0f, 2.0f)); // posiciÛn en tu escena
-            model = glm::scale(model, glm::vec3(2.5f));                  // tamaÒo
+            model = glm::translate(model, glm::vec3(-23.0f, 7.0f, 2.0f));
+            model = glm::scale(model, glm::vec3(2.5f));                  
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
             glBindVertexArray(cubeVAO);
             glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
@@ -1384,10 +1386,10 @@ int main()
         {
             // textura difusa para el cubo
             glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, bardaTextura);
+            glBindTexture(GL_TEXTURE_2D, maderaTextura);
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-23.0f, 3.5f, 2.0f)); // posiciÛn en tu escena
-            model = glm::scale(model, glm::vec3(1.0f, 7.0f, 1.0f));                  // tamaÒo
+            model = glm::translate(model, glm::vec3(-23.0f, 3.5f, 2.0f)); 
+            model = glm::scale(model, glm::vec3(1.0f, 7.0f, 1.0f));                
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
             glBindVertexArray(cubeVAO);
             glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
@@ -1401,8 +1403,8 @@ int main()
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, lampTexture);
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-1.0f, 7.0f, -23.0f)); // posiciÛn en tu escena
-            model = glm::scale(model, glm::vec3(2.5f));                  // tamaÒo
+            model = glm::translate(model, glm::vec3(-1.0f, 7.0f, -23.0f)); 
+            model = glm::scale(model, glm::vec3(2.5f));                 
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
             glBindVertexArray(cubeVAO);
             glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
@@ -1413,10 +1415,10 @@ int main()
         {
             // textura difusa para el cubo
             glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, bardaTextura);
+            glBindTexture(GL_TEXTURE_2D, maderaTextura);
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-1.0f, 3.0f, -23.0f)); // posiciÛn en tu escena
-            model = glm::scale(model, glm::vec3(1.0f, 7.0f, 1.0f));                  // tamaÒo
+            model = glm::translate(model, glm::vec3(-1.0f, 3.0f, -23.0f)); 
+            model = glm::scale(model, glm::vec3(1.0f, 7.0f, 1.0f));              
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
             glBindVertexArray(cubeVAO);
             glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
@@ -1429,8 +1431,8 @@ int main()
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, lampTexture);
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-1.0f, 7.0f, 7.0f)); // posiciÛn en tu escena
-            model = glm::scale(model, glm::vec3(2.5f));                  // tamaÒo
+            model = glm::translate(model, glm::vec3(-1.0f, 7.0f, 7.0f)); 
+            model = glm::scale(model, glm::vec3(2.5f));                  
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
             glBindVertexArray(cubeVAO);
             glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
@@ -1441,22 +1443,95 @@ int main()
         {
             // textura difusa para el cubo
             glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, bardaTextura);
+            glBindTexture(GL_TEXTURE_2D, maderaTextura);
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-1.0f, 3.0f, 7.0f)); // posiciÛn en tu escena
-            model = glm::scale(model, glm::vec3(1.0f, 7.0f, 1.0f));                  // tamaÒo
+            model = glm::translate(model, glm::vec3(-1.0f, 3.0f, 7.0f)); 
+            model = glm::scale(model, glm::vec3(1.0f, 7.0f, 1.0f));              
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
             glBindVertexArray(cubeVAO);
             glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
         }
 
+        //CARTELES
+        {
+            // textura difusa para el cubo
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, cartelTextura);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-4.0f, 4.0f, 10.0f));
+            model = glm::scale(model, glm::vec3(0.4f, 3.0f, 3.0f));
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glBindVertexArray(cubeVAO);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+        // Cubo 2
+        {
+            // textura difusa para el cubo
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, maderaTextura);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-4.0f, 1.0f, 10.0f));
+            model = glm::scale(model, glm::vec3(0.5f, 3.0f, 0.5f));
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glBindVertexArray(cubeVAO);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
 
+        {
+            // textura difusa para el cubo
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, cartelTextura1);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(2.0f, 4.0f, 10.0f));
+            model = glm::scale(model, glm::vec3(0.4f, 3.0f, 3.0f));
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glBindVertexArray(cubeVAO);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+        // Cubo 2
+        {
+            // textura difusa para el cubo
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, maderaTextura);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(2.0f, 1.0f, 10.0f));
+            model = glm::scale(model, glm::vec3(0.5f, 3.0f, 0.5f));
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glBindVertexArray(cubeVAO);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
 
-
-
-
-
+        {
+            // textura difusa para el cubo
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, cartelTextura2);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-6.0f, 4.0f, -8.0f));
+            model = glm::scale(model, glm::vec3(0.4f, 3.0f, 3.0f));
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glBindVertexArray(cubeVAO);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+        // Cubo 2
+        {
+            // textura difusa para el cubo
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, maderaTextura);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-6.0f, 1.0f, -8.0f));
+            model = glm::scale(model, glm::vec3(0.5f, 3.0f, 0.5f));
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glBindVertexArray(cubeVAO);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+        
 
         // ----- SKYBOX -----
         glDepthFunc(GL_LEQUAL);
@@ -1515,7 +1590,7 @@ void ProcessInput(Window& window)
         puertaTogglePressed = false;
     }
 
-    // H·bitat 1 (Acu·tico) - Tecla U
+    // H√°bitat 1 (Acu√°tico) - Tecla U
     bool uNow = window.IsKeyPressed(GLFW_KEY_U);
     if (uNow && !animacionH1TogglePressed) {
         animacionH1 = !animacionH1;
@@ -1529,15 +1604,15 @@ void ProcessInput(Window& window)
     bool bNow = window.IsKeyPressed(GLFW_KEY_B);
     if (bNow && !animacionH2TogglePressed)
     {
-        // Cambiamos el estado de la animaciÛn
+        // Cambiamos el estado de la animaci√≥n
         animacionH2 = !animacionH2;
         animacionH2TogglePressed = true;
 
-        // Si ACABAMOS DE ENCENDER la animaciÛn,
+        // Si ACABAMOS DE ENCENDER la animaci√≥n,
         // reseteamos TODO el estado del ciervo adulto
         if (animacionH2)
         {
-            // PosiciÛn y rotaciÛn
+            // Posici√≥n y rotaci√≥n
             ciervoPos = ciervoHomePos;
             ciervoRot = ciervoHomeRot;
 
@@ -1573,7 +1648,7 @@ void ProcessInput(Window& window)
         pajaro1TogglePressed = false;
     }
 
-    // H·bitat 4 (Oso, Ping¸ino, Foca) (tecla Y)
+    // H√°bitat 4 (Oso, Ping√ºino, Foca) (tecla Y)
     bool yNow = window.IsKeyPressed(GLFW_KEY_Y);
     if (yNow && !animacionH4TogglePressed) {
         animacionH4 = !animacionH4;
@@ -1587,7 +1662,7 @@ void ProcessInput(Window& window)
 
     if (lNow && !pointLightsTogglePressed)
     {
-        pointLightsOn = !pointLightsOn;      // cambia de encendido ? apagado
+        pointLightsOn = !pointLightsOn;      // cambia de encendido ‚Üî apagado
         pointLightsTogglePressed = true;
     }
     else if (!lNow)
@@ -1599,7 +1674,7 @@ void ProcessInput(Window& window)
 
     if (oNow && !ambLightsTogglePressed)
     {
-        ambLightsOn = !ambLightsOn;      // cambia de encendido ? apagado
+        ambLightsOn = !ambLightsOn;      // cambia de encendido ‚Üî apagado
         ambLightsTogglePressed = true;
     }
     else if (!oNow)
@@ -1623,7 +1698,7 @@ void Animation()
     // Ciervo Adulto (Movimiento y Patas y Ciervo Bebe
     if (animacionH2)
     {
-        //AnimaciÛn de patas Ciervo Adulto
+        //Animaci√≥n de patas Ciervo Adulto
         if (!Ciervostep) {
             RLegs += 0.3f;
             FLegs += 0.3f;
@@ -1663,7 +1738,7 @@ void Animation()
             if (ciervoRot < 0.0f) ciervoRot += 360.0f;
         }
 
-        // Ciervo BebÈ 
+        // Ciervo Beb√© 
         const float NECK_SPEED = 0.3f;
         const float HEAD_SPEED = 0.3f;
 
@@ -1702,7 +1777,7 @@ void Animation()
         }
     }
     else {
-        //Vuelve a neutro si se apaga la animaciÛn
+        //Vuelve a neutro si se apaga la animaci√≥n
             // 1)  patas y cabeza a 0
         if (RLegs > 0.0f)      RLegs -= 0.3f;
         else if (RLegs < 0.0f) RLegs += 0.3f;
@@ -1713,7 +1788,7 @@ void Animation()
         if (head > 0.0f)       head -= 0.3f;
         else if (head < 0.0f)  head += 0.3f;
 
-        // 2) Volver posiciÛn XYZ al punto inicial 
+        // 2) Volver posici√≥n XYZ al punto inicial 
         if (ciervoPos.x < ciervoHomePos.x)      ciervoPos.x += ciervoReturnPosStep;
         else if (ciervoPos.x > ciervoHomePos.x) ciervoPos.x -= ciervoReturnPosStep;
 
@@ -1723,7 +1798,7 @@ void Animation()
         if (ciervoPos.z < ciervoHomePos.z)      ciervoPos.z += ciervoReturnPosStep;
         else if (ciervoPos.z > ciervoHomePos.z) ciervoPos.z -= ciervoReturnPosStep;
 
-        // 3) Volver rotaciÛn al ·ngulo original 
+        // 3) Volver rotaci√≥n al √°ngulo original 
         if (ciervoRot < ciervoHomeRot)      ciervoRot += ciervoReturnRotStep;
         else if (ciervoRot > ciervoHomeRot) ciervoRot -= ciervoReturnRotStep;
 
@@ -1745,7 +1820,7 @@ void Animation()
             ciervoDir = 1;
         }
 
-        // Ciervo BebÈ
+        // Ciervo Beb√©
         const float S1 = 0.6f, S2 = 0.8f;
         if (neck > 0.0f) neck = std::max(0.0f, neck - S1);
         if (head2 > 0.0f) head2 = std::max(0.0f, head2 - S2);
@@ -1753,7 +1828,7 @@ void Animation()
     }
 
 
-    // ===== AnimaciÛn P·jaros (H3) =====
+    // ===== Animaci√≥n P√°jaros (H3) =====
     // Pajaro 1
     if (pajaro1Anim) {
         pajaroPhase += flyHz;
@@ -1779,7 +1854,7 @@ void Animation()
         go0(ala2, 2.0f);
     }
 
-    // Pajaro 2: rotaciÛn simple 
+    // Pajaro 2: rotaci√≥n simple 
     if (pajaro2Anim) {
         if (!pajaro2step) {
             pajaro2head += 0.3f;
@@ -1802,7 +1877,7 @@ void Animation()
         pajaro2step = false;
     }
 
-    // Tuc·n 
+    // Tuc√°n 
     if (pajaro3Anim) {
         if (!pajaro3step) {
             pajaro3head += 0.3f;
@@ -1812,7 +1887,7 @@ void Animation()
             pico1 += picoVel;
             pico2 += picoVel;
 
-            // lÌmite superior (no abre m·s que picoMax)
+            // l√≠mite superior (no abre m√°s que picoMax)
             if (pico1 > picoMax) pico1 = picoMax;
             if (pico2 > picoMax) pico2 = picoMax;
 
@@ -1826,7 +1901,7 @@ void Animation()
             pico1 -= picoVel;
             pico2 -= picoVel;
 
-            // lÌmite inferior (no se pasa de cerrado)
+            // l√≠mite inferior (no se pasa de cerrado)
             if (pico1 < 0.0f) pico1 = 0.0f;
             if (pico2 < 0.0f) pico2 = 0.0f;
 
@@ -1843,7 +1918,7 @@ void Animation()
         pajaro3step = false;
     }
 
-    // H·bitat 4 (Oso, Ping¸ino, Foca)
+    // H√°bitat 4 (Oso, Ping√ºino, Foca)
     if (animacionH4) {
         pBearWalkTime += deltaTime * 4.0f;
 
@@ -1877,7 +1952,7 @@ void Animation()
             if (pBearRot < 0.0f) pBearRot += 360.0f;
         }
 
-        pinguTime += deltaTime * 3.0f;  // velocidad de animaciÛn
+        pinguTime += deltaTime * 3.0f;  // velocidad de animaci√≥n
         pinguWings_A = std::sin(pinguTime) * 35.0f;
         pinguHead_A = std::sin(pinguTime + glm::pi<float>()) * 15.0f;
 
@@ -1930,7 +2005,7 @@ void Animation()
         }
     }
     else {
-        // Reset de H·bitat 4 
+        // Reset de H√°bitat 4 
         pBearWalkTime = 0.0f;
         pBearFR_A = pBearFL_A = pBearBR_A = pBearBL_A = 0.0f;
         pinguTime = 0.0f;
@@ -1939,14 +2014,14 @@ void Animation()
         sealHead_A = sealHands_A = 0.0f;
     }
 
-    // ===== H·bitat 1 (TiburÛn y PiraÒa) 
+    // ===== H√°bitat 1 (Tibur√≥n y Pira√±a) 
     if (animacionH1)
     {
         float dt = deltaTime;
-        // ---------- TIBUR”N ----------
+        // ---------- TIBUR√ìN ----------
         sharkTime += dt;
 
-        // AnimaciÛn de cabeza, cuerpo y cola 
+        // Animaci√≥n de cabeza, cuerpo y cola 
         sharkHeadAngle = 12.0f * std::sin(sharkTime * 2.0f);
         sharkBodyAngle = 10.0f * std::sin(sharkTime * 1.5f);
         sharkTailA = 30.0f * std::sin(sharkTime * 2.5f);
@@ -1961,7 +2036,7 @@ void Animation()
         sharkPos.z += sharkZDir * zSpeed * dt;
         if (sharkPos.z > zMax) {
             sharkPos.z = zMax;
-            sharkZDir = -1.0f;    // ahora va hacia atr·s
+            sharkZDir = -1.0f;    // ahora va hacia atr√°s
         }
         else if (sharkPos.z < -zMax) {
             sharkPos.z = -zMax;
@@ -1978,7 +2053,7 @@ void Animation()
             sharkXDir = 1.0f;
         }
 
-        // ---------- PIRA—A ----------
+        // ---------- PIRA√ëA ----------
         piraTime += dt;
 
         float swimSpeed = 0.5f;
