@@ -1,9 +1,9 @@
-﻿/*
+/*
  * Proyecto Final Alison Becerra Lara
  *
  */
 
- //Importacion de las bibliotecas necesarias
+//Importacion de las bibliotecas necesarias
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -339,9 +339,9 @@ struct WallSegment {
 
 int main()
 {
-    // -------------------------------------------------------------------------
-    // creacion de la ventana y config OpenGL
-    // -------------------------------------------------------------------------
+  // -------------------------------------------------------------------------
+  // creacion de la ventana y config OpenGL
+  // -------------------------------------------------------------------------
     Window window(1280, 720, "Proyecto Final");
     if (window.GetGLFWwindow() == nullptr)
     {
@@ -699,7 +699,6 @@ int main()
     // construccion de los segmentos de barda: perimetro del zoo
     // -----------------------------------------------------------------------------
     // cada lado de la barda se divide en 'NUM_WALL_BLOCKS' segmentos de longitud igual
-    const float segmentLength = TOTAL_WALL_LENGTH / (float)NUM_WALL_BLOCKS;
     const float halfEntrance = ENTRANCE_WIDTH * 0.5f;
 
     std::vector<WallSegment> wallSegments;
@@ -886,8 +885,8 @@ int main()
         // Luz direccional
         float m = ambLightsOn ? 1.0f : 0.0f;
         glUniform3f(dirDirLoc, -0.2f, -1.0f, -0.3f);
-        glUniform3f(dirAmbLoc, 0.5f * m, 0.5f * m, 0.5f * m);
-        glUniform3f(dirDifLoc, 0.5f * m, 0.5f * m, 0.5f * m);
+        glUniform3f(dirAmbLoc, 0.5f*m, 0.5f*m, 0.5f*m);
+        glUniform3f(dirDifLoc, 0.5f*m, 0.5f*m, 0.5f*m);
         glUniform3f(dirSpecLoc, 0.3f, 0.3f, 0.3f);
 
         // Punto de luz
@@ -896,9 +895,9 @@ int main()
 
         // Punto de luz 1
         glUniform3fv(pPosLoc, 1, glm::value_ptr(pointLightPositions[0]));
-        glUniform3f(pAmbLoc, 0.7f * k, 0.7f * k, 0.7f * k);
-        glUniform3f(pDifLoc, 0.7f * k, 0.7f * k, 0.7f * k);
-        glUniform3f(pSpecLoc, 1.0f * k, 1.0f * k, 1.0f * k);
+        glUniform3f(pAmbLoc, 0.7f *k, 0.7f*k, 0.7f*k);
+        glUniform3f(pDifLoc, 0.7f*k, 0.7f*k, 0.7f*k);
+        glUniform3f(pSpecLoc, 1.0f*k, 1.0f*k, 1.0f*k);
         glUniform1f(pConstLoc, 1.0f);
         glUniform1f(pLinLoc, 0.04f);
         glUniform1f(pQuadLoc, 0.02f);
@@ -1330,7 +1329,7 @@ int main()
         {
             glm::mat4 modelPira(1.0f);
             glm::vec3 habitat_marino_center(-24.0f, 2.0f, -16.0f);
-            // posicion base de la pecera
+              // posicion base de la pecera
             modelPira = glm::translate(modelPira, habitat_marino_center);
             modelPira = glm::translate(modelPira, piranhaPos);
             // rotacion según direccion
